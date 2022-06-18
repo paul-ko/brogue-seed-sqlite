@@ -5,7 +5,7 @@ name = "pypi"
 
 [dev-packages]
 bandit = "*"
-black = "*"
+black = "22.3.0"  # keep in sync with pre-commit
 flake8 = "*"
 isort = "*"
 pre-commit = "*"
@@ -25,3 +25,4 @@ bandit = "bandit -c bandit.yaml -r ./broguedb"
 safety = "safety check"
 healthcheck = "bash ./sh/health-check.sh"
 upgrade = 'bash ./sh/pyupgrade.sh'
+test = "pytest broguedb/test"

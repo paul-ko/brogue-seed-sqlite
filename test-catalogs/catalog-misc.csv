@@ -1,0 +1,6 @@
+dungeon_version,seed,depth,quantity,category,kind,enchantment,runic,vault_number,opens_vault_number,carried_by_monster_name,ally_status_name,mutation_name
+CE 1.9,1,2,1,weapon,broadsword,0,,,,,,
+CE 1.9,1,7,1,armor,leather armor,3,absorption,1,,,,
+CE 1.9,1,3,1,key,door key,,,,1,,,
+CE 1.9,1,6,1,staff,obstruction,3,,,,goblin mystic,,
+CE 1.9,1,26,1,ally,tentacle horror,,,,,,shackled,reflective
