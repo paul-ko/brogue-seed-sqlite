@@ -4,6 +4,7 @@ import logging
 import sqlite3
 
 from broguedb import fileutil
+from broguedb.app.data import CatalogMetadata
 from broguedb.app.data import CatalogObject
 
 _logger = logging.getLogger(__name__)
@@ -11,6 +12,10 @@ _insert_catalog_object_statement = (
     "insert into Object(Seed, Depth, Quantity, Category, Kind, Enchantment, Runic, "
     "VaultNumber, OpensVaultNumber, CarriedByMonsterName, AllyStatusName, "
     "MutationName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+)
+_insert_catalog_metadata_statement = (
+    "insert into LoadMetadata(DungeonVersion, MaxDepth, MinSeed, MaxSeed) "
+    "values (?, ?, ?, ?)"
 )
 
 
@@ -38,10 +43,21 @@ def set_up_fresh_db(connection: sqlite3.Connection) -> None:
 
 
 def insert_catalog_objects(
-    connect: sqlite3.Connection, catalog_objects: Collection[CatalogObject]
+    connection: sqlite3.Connection, catalog_objects: Collection[CatalogObject]
 ) -> None:
 
-    connect.executemany(
+    connection.executemany(
         _insert_catalog_object_statement,
         tuple(dataclasses.astuple(c) for c in catalog_objects),
+    )
+
+
+def insert_catalog_metadata(
+    connection: sqlite3.Connection, catalog_metadata: CatalogMetadata
+) -> None:
+
+    execute_sqlite_sql(
+        connection,
+        _insert_catalog_metadata_statement,
+        dataclasses.astuple(catalog_metadata),
     )

@@ -38,3 +38,17 @@ class CatalogObject:
             ally_status_name=fields[11],
             mutation_name=fields[12],
         )
+
+
+@dataclass(frozen=True)
+class CatalogMetadata:
+    dungeon_version: str
+    max_depth: int
+    min_seed: int
+    max_seed: int
+
+
+@dataclass(frozen=True)
+class Catalog:
+    catalog_metadata: CatalogMetadata
+    catalog_objects: tuple[CatalogObject]
