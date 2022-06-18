@@ -1,0 +1,5 @@
+[run]
+omit =
+    # filepaths appear to be platform-dependent, at least based on Windows behavior :/
+    broguedb\test\*
+    broguedb/test/*

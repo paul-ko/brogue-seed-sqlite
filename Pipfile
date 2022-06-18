@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+bandit = "*"
+black = "*"
+flake8 = "*"
+isort = "*"
+pre-commit = "*"
+pytest = "~=6.2"
+pytest-cov = "*"
+safety = "*"
+pyupgrade = "*"
+
+[requires]
+python_version = "3.10"
+
+[pipenv]
+allow_prereleases = true
+
+[scripts]
+bandit = "bandit -c bandit.yaml -r ./broguedb"
+safety = "safety check"
+healthcheck = "bash ./sh/health-check.sh"
+upgrade = 'bash ./sh/pyupgrade.sh'
