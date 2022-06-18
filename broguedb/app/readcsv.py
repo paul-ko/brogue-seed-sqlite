@@ -10,6 +10,10 @@ from broguedb.app.data import CatalogObject
 _logger = logging.getLogger(__name__)
 
 
+class EmptyCatalogError(RuntimeError):
+    pass
+
+
 def read_file(path: Path) -> Catalog:
     _logger.info("Reading the CSV at %s", path.absolute())
 
@@ -19,7 +23,10 @@ def read_file(path: Path) -> Catalog:
 
         # Handle the first line separately, because we need to grab the dungeon version
         # from it.
-        first_row = next(reader)
+        try:
+            first_row = next(reader)
+        except StopIteration:
+            raise EmptyCatalogError()
         dungeon_version = first_row[0]
         out = tuple(
             _row_to_catalog_object(r) for r in itertools.chain([first_row], reader)

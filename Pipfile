@@ -25,4 +25,24 @@ bandit = "bandit -c bandit.yaml -r ./broguedb"
 safety = "safety check"
 healthcheck = "bash ./sh/health-check.sh"
 upgrade = 'bash ./sh/pyupgrade.sh'
-test = "pytest broguedb/test"
+load-catalog = "python broguedb/app/main.py"
+test = """
+       pytest
+       --cov=broguedb
+       --cov-fail-under=100
+       --cov-config=.coveragerc
+       ./broguedb/test
+       --color=yes
+       """
+covtest = """
+       pytest
+       --cov=broguedb
+       --cov-fail-under=100
+       --cov-config=.coveragerc
+       --cov-report=html
+       ./broguedb/test
+       --color=yes
+       """
+
+[packages]
+click = "~=8.1"
