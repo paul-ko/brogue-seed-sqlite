@@ -113,6 +113,7 @@ class TestPopulateEnumTables:
         assert len(cursor.fetchall()) == 48
         assert all(Runic[v[1]] == v[0] for v in cursor.fetchall())
 
+    @pytest.mark.skip
     def test_populate_kind(self, initialized_in_memory_db: sqlite3.Connection):
         cursor = db.execute_sqlite_sql(
             initialized_in_memory_db,

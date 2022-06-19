@@ -1,6 +1,5 @@
 from broguedb import fileutil
 from broguedb.app import readcsv
-from broguedb.app.data import CatalogMetadata
 from broguedb.test import csvtestdata
 
 catalog_1_1000_26 = fileutil.get_path_relative_to_project_root(
@@ -12,21 +11,15 @@ catalog_misc = fileutil.get_path_relative_to_project_root(
 
 
 def test_read_catalog_misc():
-    catalog = readcsv.read_file(catalog_misc)
-    catalog_objects = catalog.catalog_objects
-    expected_data = csvtestdata.misc_csv_file_catalog_objects
-
+    catalog_objects = readcsv.read_file(catalog_misc)
+    expected_data = csvtestdata.misc_csv_file_raw_catalog
     assert len(catalog_objects) == len(expected_data)
+
     for actual, expected in zip(catalog_objects, expected_data):
         assert actual == expected
-
-    assert catalog.catalog_metadata == csvtestdata.misc_csv_file_metadata
 
 
 # Validate we can read a relatively large file with no errors.
 def test_read_1_1000_26():
-    catalog = readcsv.read_file(catalog_1_1000_26)
-    assert len(catalog.catalog_objects) == 199586
-    assert catalog.catalog_metadata == CatalogMetadata(
-        "CE 1.9", max_depth=26, min_seed=1, max_seed=1000
-    )
+    catalog_objects = readcsv.read_file(catalog_1_1000_26)
+    assert len(catalog_objects) == 199586

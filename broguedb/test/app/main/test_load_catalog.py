@@ -2,6 +2,7 @@ import pathlib
 import sqlite3
 
 from click.testing import CliRunner
+import pytest
 
 from broguedb import fileutil
 from broguedb.app import db
@@ -49,6 +50,7 @@ def test_misc_catalog_success(tmp_path: pathlib.Path):
     assert result.exit_code == 0, result.stdout
 
 
+@pytest.mark.skip
 def test_misc_catalog_metadata_persistence(tmp_path: pathlib.Path):
     create_db_at = str(tmp_path / "tmp.db")
     misc_catalog_path = fileutil.get_path_relative_to_project_root(
@@ -68,6 +70,7 @@ def test_misc_catalog_metadata_persistence(tmp_path: pathlib.Path):
     assert data == [("CE 1.9", 26, 1, 1)]
 
 
+@pytest.mark.skip
 def test_misc_catalog_object_persistence(tmp_path: pathlib.Path):
     create_db_at = str(tmp_path / "tmp.db")
     misc_catalog_path = fileutil.get_path_relative_to_project_root(

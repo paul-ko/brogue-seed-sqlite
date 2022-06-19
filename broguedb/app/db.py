@@ -7,13 +7,12 @@ from broguedb import fileutil
 from broguedb.app.data import CatalogMetadata
 from broguedb.app.data import CatalogObject
 from broguedb.app.data import Category
-from broguedb.app.data import Kind
 from broguedb.app.data import Runic
 
 _logger = logging.getLogger(__name__)
 
 
-_enum_table_sources = (Category, Kind, Runic)
+_enum_table_sources = (Category, Runic)
 
 
 _insert_catalog_object_statement = (
@@ -25,6 +24,7 @@ _insert_catalog_metadata_statement = (
     "insert into LoadMetadata(DungeonVersion, MaxDepth, MinSeed, MaxSeed) "
     "values (?, ?, ?, ?)"
 )
+_insert_kind_statement = "insert into Kind values (?, ?)"
 
 
 def execute_sqlite_sql(
@@ -76,7 +76,8 @@ def populate_enum_tables(connection: sqlite3.Connection) -> None:
 
 
 def insert_catalog_objects(
-    connection: sqlite3.Connection, catalog_objects: Collection[CatalogObject]
+    connection: sqlite3.Connection,
+    catalog_objects: Collection[CatalogObject],
 ) -> None:
 
     _logger.info("Persisting catalog objects")
@@ -96,5 +97,14 @@ def insert_catalog_metadata(
     execute_sqlite_sql(
         connection,
         _insert_catalog_metadata_statement,
-        dataclasses.astuple(catalog_metadata),
+        dataclasses.astuple(catalog_metadata)[:4],
     )
+
+
+def insert_kinds(connection: sqlite3.Connection, kinds: set[str]) -> dict[str, int]:
+    _logger.info("Persisting kinds")
+    parameters = tuple(
+        tuple((idx + 1, v) for idx, v in enumerate(kinds)),
+    )
+    executemany_sqlite_sql(connection, _insert_kind_statement, parameters)
+    return {p[1]: p[0] for p in parameters}

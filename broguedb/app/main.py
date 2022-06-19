@@ -8,6 +8,7 @@ import click
 
 from broguedb.app import db
 from broguedb.app import readcsv
+from broguedb.app.readcsv import Catalog
 
 _logger = logging.getLogger(__name__)
 
@@ -55,16 +56,20 @@ def load_catalog(
     db_path = resolve_db_parameters(create_db_at, update_db_at)
 
     try:
-        catalog = readcsv.read_file(csv_path)
+        catalog_objects = readcsv.read_file(csv_path)
     except readcsv.EmptyCatalogError:
         _logger.error("No data in catalog")
         sys.exit(2)
 
+    catalog = Catalog(catalog_objects)
+    _logger.info(catalog.catalog_metadata)
+
     with sqlite3.connect(db_path) as db_connection:
         if create_db_at is not None:
             db.set_up_fresh_db(db_connection)
-        db.insert_catalog_metadata(db_connection, catalog.catalog_metadata)
-        db.insert_catalog_objects(db_connection, catalog.catalog_objects)
+        # kinds = db.insert_kinds(db_connection, catalog.catalog_metadata.kinds)
+        # db.insert_catalog_metadata(db_connection, catalog.catalog_metadata)
+        # db.insert_catalog_objects(db_connection, catalog.catalog_objects)
 
 
 def resolve_db_parameters(
