@@ -19,7 +19,7 @@ select
 ,cat.Value
 ,obj.Kind
 ,obj.Enchantment
-,obj.Runic
+,run.Value
 ,obj.VaultNumber
 ,obj.OpensVaultNumber
 ,obj.CarriedByMonsterName
@@ -28,3 +28,5 @@ select
 from Object as obj
 join Category cat
   on obj.CategoryID = cat.CategoryID
+join Runic run
+  on obj.RunicID = run.RunicID

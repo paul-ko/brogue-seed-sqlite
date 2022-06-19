@@ -4,6 +4,7 @@ import pytest
 
 from broguedb.app import db
 from broguedb.app.data import Category
+from broguedb.app.data import Runic
 from broguedb.test import csvtestdata
 
 misc_test_objects = csvtestdata.misc_csv_file_catalog_objects
@@ -32,7 +33,7 @@ def test_run_ddl(initialized_in_memory_db: sqlite3.Connection):
               ,CategoryID
               ,Kind
               ,Enchantment
-              ,Runic
+              ,RunicID
               ,VaultNumber
               ,OpensVaultNumber
               ,CarriedByMonsterName
@@ -56,6 +57,13 @@ def test_run_ddl(initialized_in_memory_db: sqlite3.Connection):
         """
         select CategoryID, Value
         from Category""",
+    )
+
+    db.execute_sqlite_sql(
+        initialized_in_memory_db,
+        """
+        select RunicID, Value
+        from Runic""",
     )
 
     db.execute_sqlite_sql(
@@ -87,6 +95,16 @@ class TestPopulateEnumTables:
         )
         assert len(cursor.fetchall()) == 13
         assert all(Category[v[1]] == v[0] for v in cursor.fetchall())
+
+    def test_populate_runic(self, initialized_in_memory_db: sqlite3.Connection):
+        cursor = db.execute_sqlite_sql(
+            initialized_in_memory_db,
+            """
+            select RunicID, Value
+            from Runic""",
+        )
+        assert len(cursor.fetchall()) == 48
+        assert all(Runic[v[1]] == v[0] for v in cursor.fetchall())
 
 
 def test_insert_single_catalog_object(initialized_in_memory_db: sqlite3.Connection):

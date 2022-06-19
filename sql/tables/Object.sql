@@ -5,7 +5,7 @@ create table Object(
 ,CategoryID integer not null
 ,Kind text not null
 ,Enchantment text
-,Runic text
+,RunicID integer
 ,VaultNumber integer
 ,OpensVaultNumber integer
 ,CarriedByMonsterName text

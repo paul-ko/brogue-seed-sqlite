@@ -1,6 +1,7 @@
 from broguedb.app.data import CatalogMetadata
 from broguedb.app.data import CatalogObject
 from broguedb.app.data import Category
+from broguedb.app.data import Runic
 
 misc_csv_file_catalog_objects = (
     CatalogObject(1, 2, 1, Category.weapon, "broadsword", 0),
@@ -21,7 +22,7 @@ misc_csv_file_catalog_objects = (
         Category.armor,
         "leather armor",
         3,
-        "absorption",
+        Runic.absorption,
         vault_number=1,
     ),
     CatalogObject(
