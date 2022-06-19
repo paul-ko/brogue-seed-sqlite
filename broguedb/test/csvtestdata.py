@@ -1,17 +1,18 @@
 from broguedb.app.data import CatalogMetadata
 from broguedb.app.data import CatalogObject
 from broguedb.app.data import Category
+from broguedb.app.data import Kind
 from broguedb.app.data import Runic
 
 misc_csv_file_catalog_objects = (
-    CatalogObject(1, 2, 1, Category.weapon, "broadsword", 0),
-    CatalogObject(1, 3, 1, Category.key, "door key", opens_vault=1),
+    CatalogObject(1, 2, 1, Category.weapon, Kind.broadsword, 0),
+    CatalogObject(1, 3, 1, Category.key, Kind.door_key, opens_vault=1),
     CatalogObject(
         1,
         6,
         1,
         Category.staff,
-        "obstruction",
+        Kind.obstruction,
         3,
         carried_by_monster_name="goblin mystic",
     ),
@@ -20,7 +21,7 @@ misc_csv_file_catalog_objects = (
         7,
         1,
         Category.armor,
-        "leather armor",
+        Kind.leather_armor,
         3,
         Runic.absorption,
         vault_number=1,
@@ -30,7 +31,7 @@ misc_csv_file_catalog_objects = (
         26,
         1,
         Category.ally,
-        "tentacle horror",
+        Kind.tentacle_horror,
         ally_status_name="shackled",
         mutation_name="reflective",
     ),

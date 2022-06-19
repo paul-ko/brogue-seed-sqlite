@@ -3,7 +3,7 @@ create table Object(
 ,Depth integer not null
 ,Quantity integer not null
 ,CategoryID integer not null
-,Kind text not null
+,KindID integer not null
 ,Enchantment text
 ,RunicID integer
 ,VaultNumber integer

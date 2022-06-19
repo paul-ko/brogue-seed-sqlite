@@ -31,7 +31,7 @@ def test_run_ddl(initialized_in_memory_db: sqlite3.Connection):
               ,Depth
               ,Quantity
               ,CategoryID
-              ,Kind
+              ,KindID
               ,Enchantment
               ,RunicID
               ,VaultNumber
@@ -57,6 +57,13 @@ def test_run_ddl(initialized_in_memory_db: sqlite3.Connection):
         """
         select CategoryID, Value
         from Category""",
+    )
+
+    db.execute_sqlite_sql(
+        initialized_in_memory_db,
+        """
+        select KindID, Value
+        from Kind""",
     )
 
     db.execute_sqlite_sql(
@@ -104,6 +111,16 @@ class TestPopulateEnumTables:
             from Runic""",
         )
         assert len(cursor.fetchall()) == 48
+        assert all(Runic[v[1]] == v[0] for v in cursor.fetchall())
+
+    def test_populate_kind(self, initialized_in_memory_db: sqlite3.Connection):
+        cursor = db.execute_sqlite_sql(
+            initialized_in_memory_db,
+            """
+            select KindID, Value
+            from Kind""",
+        )
+        assert len(cursor.fetchall()) == 107
         assert all(Runic[v[1]] == v[0] for v in cursor.fetchall())
 
 

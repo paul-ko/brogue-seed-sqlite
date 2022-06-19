@@ -7,17 +7,18 @@ from broguedb import fileutil
 from broguedb.app.data import CatalogMetadata
 from broguedb.app.data import CatalogObject
 from broguedb.app.data import Category
+from broguedb.app.data import Kind
 from broguedb.app.data import Runic
 
 _logger = logging.getLogger(__name__)
 
 
-_enum_table_sources = (Category, Runic)
+_enum_table_sources = (Category, Kind, Runic)
 
 
 _insert_catalog_object_statement = (
-    "insert into Object(Seed, Depth, Quantity, CategoryID, Kind, Enchantment, RunicID, "
-    "VaultNumber, OpensVaultNumber, CarriedByMonsterName, AllyStatusName, "
+    "insert into Object(Seed, Depth, Quantity, CategoryID, KindID, Enchantment, "
+    "RunicID, VaultNumber, OpensVaultNumber, CarriedByMonsterName, AllyStatusName, "
     "MutationName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 )
 _insert_catalog_metadata_statement = (

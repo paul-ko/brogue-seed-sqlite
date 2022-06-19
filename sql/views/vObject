@@ -17,7 +17,7 @@ select
 ,obj.Depth
 ,obj.Quantity
 ,cat.Value
-,obj.Kind
+,knd.Value
 ,obj.Enchantment
 ,run.Value
 ,obj.VaultNumber
@@ -30,3 +30,5 @@ join Category cat
   on obj.CategoryID = cat.CategoryID
 join Runic run
   on obj.RunicID = run.RunicID
+join Kind knd
+  on obj.KindID = knd.KindID
