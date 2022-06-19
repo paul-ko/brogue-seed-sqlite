@@ -3,6 +3,7 @@ import sqlite3
 import pytest
 
 from broguedb.app import db
+from broguedb.app.data import Category
 from broguedb.test import csvtestdata
 
 misc_test_objects = csvtestdata.misc_csv_file_catalog_objects
@@ -16,14 +17,48 @@ def initialized_in_memory_db() -> sqlite3.Connection:
     return connection
 
 
-def test_set_up_fresh_db(initialized_in_memory_db: sqlite3.Connection):
+def test_run_ddl(initialized_in_memory_db: sqlite3.Connection):
     """
-    Test the DB initialization by querying for all tables and columns explicitly.
+    Test the DB initialization by querying for all tables, views, and columns.
 
-    We don't use select * to validate that the columns we expect all exist.  We validate
-    that no rows exist as well, because why not...
+    We don't use select * to validate that the columns we expect all exist.
     """
-    cursor = db.execute_sqlite_sql(
+    db.execute_sqlite_sql(
+        initialized_in_memory_db,
+        """
+        select Seed
+              ,Depth
+              ,Quantity
+              ,CategoryID
+              ,Kind
+              ,Enchantment
+              ,Runic
+              ,VaultNumber
+              ,OpensVaultNumber
+              ,CarriedByMonsterName
+              ,AllyStatusName
+              ,MutationName
+        from Object""",
+    )
+
+    db.execute_sqlite_sql(
+        initialized_in_memory_db,
+        """
+        select DungeonVersion
+              ,MaxDepth
+              ,MinSeed
+              ,MaxSeed
+        from LoadMetadata""",
+    )
+
+    db.execute_sqlite_sql(
+        initialized_in_memory_db,
+        """
+        select CategoryID, Value
+        from Category""",
+    )
+
+    db.execute_sqlite_sql(
         initialized_in_memory_db,
         """
         select Seed
@@ -38,20 +73,20 @@ def test_set_up_fresh_db(initialized_in_memory_db: sqlite3.Connection):
               ,CarriedByMonsterName
               ,AllyStatusName
               ,MutationName
-        from Object""",
+        from vObject""",
     )
-    assert len(cursor.fetchall()) == 0
 
-    cursor = db.execute_sqlite_sql(
-        initialized_in_memory_db,
-        """
-        select DungeonVersion
-              ,MaxDepth
-              ,MinSeed
-              ,MaxSeed
-        from LoadMetadata""",
-    )
-    assert len(cursor.fetchall()) == 0
+
+class TestPopulateEnumTables:
+    def test_populate_category(self, initialized_in_memory_db: sqlite3.Connection):
+        cursor = db.execute_sqlite_sql(
+            initialized_in_memory_db,
+            """
+            select CategoryID, Value
+            from Category""",
+        )
+        assert len(cursor.fetchall()) == 13
+        assert all(Category[v[1]] == v[0] for v in cursor.fetchall())
 
 
 def test_insert_single_catalog_object(initialized_in_memory_db: sqlite3.Connection):

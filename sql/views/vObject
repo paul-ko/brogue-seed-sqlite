@@ -1,0 +1,30 @@
+create view vObject(
+ Seed
+,Depth
+,Quantity
+,Category
+,Kind
+,Enchantment
+,Runic
+,VaultNumber
+,OpensVaultNumber
+,CarriedByMonsterName
+,AllyStatusName
+,MutationName
+) as
+select
+ obj.Seed
+,obj.Depth
+,obj.Quantity
+,cat.Value
+,obj.Kind
+,obj.Enchantment
+,obj.Runic
+,obj.VaultNumber
+,obj.OpensVaultNumber
+,obj.CarriedByMonsterName
+,obj.AllyStatusName
+,obj.MutationName
+from Object as obj
+join Category cat
+  on obj.CategoryID = cat.CategoryID

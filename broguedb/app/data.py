@@ -1,6 +1,32 @@
 from dataclasses import dataclass
 from dataclasses import field
+from enum import Enum
+import sqlite3
 from typing import Optional
+
+
+class Category(Enum):
+    potion: int = 1
+    scroll: int = 2
+    gold: int = 3
+    weapon: int = 4
+    ally: int = 5
+    food: int = 6
+    staff: int = 7
+    ring: int = 8
+    armor: int = 9
+    wand: int = 10
+    key: int = 11
+    altar: int = 12
+    charm: int = 13
+
+    def __conform__(self, protocol):
+        if protocol is sqlite3.PrepareProtocol:
+            return self.value
+
+
+class Runic(Enum):
+    pass
 
 
 @dataclass(frozen=True)
@@ -8,7 +34,7 @@ class CatalogObject:
     seed: int
     depth: int
     quantity: int
-    category: str  # enum?
+    category: Category
     kind: str
     enchantment: Optional[int] = field(default=None)
     runic: Optional[str] = field(default=None)
@@ -28,7 +54,7 @@ class CatalogObject:
             seed=int(fields[1]),
             depth=int(fields[2]),
             quantity=int(fields[3]),
-            category=fields[4],
+            category=Category[fields[4]],
             kind=fields[5],
             enchantment=enchantment,
             runic=fields[7],
