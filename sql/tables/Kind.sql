@@ -1,4 +1,4 @@
 create table Kind(
- KindID integer not null
+ KindID INTEGER primary key
 ,Value text not null
 )

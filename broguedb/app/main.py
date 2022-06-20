@@ -56,20 +56,19 @@ def load_catalog(
     db_path = resolve_db_parameters(create_db_at, update_db_at)
 
     try:
-        catalog_objects = readcsv.read_file(csv_path)
+        catalog = Catalog(readcsv.read_file(csv_path))
     except readcsv.EmptyCatalogError:
         _logger.error("No data in catalog")
         sys.exit(2)
-
-    catalog = Catalog(catalog_objects)
     _logger.info(catalog.catalog_metadata)
 
-    with sqlite3.connect(db_path) as db_connection:
-        if create_db_at is not None:
-            db.set_up_fresh_db(db_connection)
-        # kinds = db.insert_kinds(db_connection, catalog.catalog_metadata.kinds)
-        # db.insert_catalog_metadata(db_connection, catalog.catalog_metadata)
-        # db.insert_catalog_objects(db_connection, catalog.catalog_objects)
+    db_service = db.DBService(
+        sqlite3.Connection(db_path), is_new_db=create_db_at is not None
+    )
+    db_service.prepare_db()
+    db_service.populate_structural_data(catalog)
+    db_service.insert_catalog_metadata(catalog.catalog_metadata)
+    db_service.insert_catalog_objects(catalog.catalog_objects)
 
 
 def resolve_db_parameters(

@@ -4,11 +4,11 @@ create table Object(
 ,Quantity integer not null
 ,CategoryID integer not null
 ,KindID integer not null
-,Enchantment text
+,Enchantment integer
 ,RunicID integer
 ,VaultNumber integer
 ,OpensVaultNumber integer
-,CarriedByMonsterName text
-,AllyStatusName text
-,MutationName text
+,CarriedByMonsterID integer
+,AllyStatusID integer
+,MutationID integer
 )

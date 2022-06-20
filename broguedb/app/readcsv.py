@@ -68,20 +68,9 @@ class Catalog:
         return frozenset(r[10] for r in self.raw_catalog if r[10] is not None)
 
     @cached_property
-    def ally_status_names(self) -> frozenset[str]:
+    def unique_ally_status_names(self) -> frozenset[str]:
         return frozenset(r[11] for r in self.raw_catalog if r[11] is not None)
 
     @cached_property
     def unique_mutation_names(self) -> frozenset[str]:
         return frozenset(r[12] for r in self.raw_catalog if r[12] is not None)
-
-
-# def _build_key_value_data(
-#     raw_catalog: tuple[tuple[str, ...]], field_index: int
-# ) -> dict[str, int]:
-#     return {
-#         k: (idx + 1)
-#         for idx, k in enumerate(
-#             set(f[field_index] for f in raw_catalog if f[field_index] is not None)
-#         )
-#     }

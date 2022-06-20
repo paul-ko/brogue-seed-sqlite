@@ -1,4 +1,4 @@
 create table Runic(
- RunicID integer not null
+ RunicID INTEGER primary key
 ,Value text not null
 )

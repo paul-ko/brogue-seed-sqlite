@@ -1,5 +1,6 @@
 from broguedb.app.data import CatalogMetadata
 from broguedb.app.data import CatalogObject
+from broguedb.app.readcsv import Catalog
 
 misc_csv_file_catalog_objects = (
     CatalogObject(1, 2, 1, "weapon", "broadsword", 0),
@@ -33,8 +34,11 @@ misc_csv_file_catalog_objects = (
         mutation_name="reflective",
     ),
 )
-misc_csv_file_metadata = CatalogMetadata("CE 1.9", max_depth=26, min_seed=1, max_seed=1)
+misc_csv_file_catalog_metadata = CatalogMetadata(
+    "CE 1.9", max_depth=26, min_seed=1, max_seed=1
+)
 misc_csv_file_raw_catalog = tuple(
-    s.to_csv_row_format(misc_csv_file_metadata.dungeon_version)
+    s.to_csv_row_format(misc_csv_file_catalog_metadata.dungeon_version)
     for s in misc_csv_file_catalog_objects
 )
+misc_csv_file_catalog = Catalog(misc_csv_file_raw_catalog)

@@ -22,13 +22,19 @@ select
 ,run.Value
 ,obj.VaultNumber
 ,obj.OpensVaultNumber
-,obj.CarriedByMonsterName
-,obj.AllyStatusName
-,obj.MutationName
+,mon.Value
+,aly.Value
+,mut.Value
 from Object as obj
-join Category cat
+left join Category cat
   on obj.CategoryID = cat.CategoryID
-join Runic run
+left join Runic run
   on obj.RunicID = run.RunicID
-join Kind knd
+left join Kind knd
   on obj.KindID = knd.KindID
+left join Monster mon
+  on obj.CarriedByMonsterID = mon.MonsterID
+left join AllyStatus aly
+  on aly.AllyStatusID = obj.AllyStatusID
+left join Mutation mut
+  on mut.MutationID = obj.MutationID
